@@ -22,18 +22,38 @@ function loadDatabase() {
             header: true,
             skipEmptyLines: true,
             complete: function(results) {
-                unifiedDatabase = results.data.map(row => ({
-                    type: row.Toll_Logic_Type,
-                    id: row.Primary_Plaza_ID,
-                    name: row.Primary_Plaza_Name,
-                    state: row.State,
-                    highway: row.Highway,
-                    lat: parseFloat(row.Latitude),
-                    lng: parseFloat(row.Longitude),
-                    matrixEntryId: row.Matrix_Entry_ID,
-                    matrixExitId: row.Matrix_Exit_ID,
-                    cost: parseFloat(row.Car_Toll_INR)
-                }));
+                const patches = {
+                    "3815": { lat: 18.81925, lng: 73.301767 },
+                    "3817": { lat: 18.737814, lng: 73.636582 },
+                    "1123": { lat: 28.6139, lng: 77.2090 },
+                    "1207": { lat: 28.9845, lng: 77.7064 },
+                    "242": { lat: 19.5190, lng: 72.9169 },
+                    "241": { lat: 19.8905, lng: 72.9426 },
+                    "240": { lat: 20.4350, lng: 72.9172 },
+                    "239": { lat: 20.8855, lng: 73.0521 },
+                    "39": { lat: 21.3034, lng: 72.9542 }
+                };
+
+                unifiedDatabase = results.data.map(row => {
+                    let lat = parseFloat(row.Latitude);
+                    let lng = parseFloat(row.Longitude);
+                    if (patches[row.Primary_Plaza_ID]) {
+                        lat = patches[row.Primary_Plaza_ID].lat;
+                        lng = patches[row.Primary_Plaza_ID].lng;
+                    }
+                    return {
+                        type: row.Toll_Logic_Type,
+                        id: row.Primary_Plaza_ID,
+                        name: row.Primary_Plaza_Name,
+                        state: row.State,
+                        highway: row.Highway,
+                        lat: lat,
+                        lng: lng,
+                        matrixEntryId: row.Matrix_Entry_ID,
+                        matrixExitId: row.Matrix_Exit_ID,
+                        cost: parseFloat(row.Car_Toll_INR)
+                    };
+                });
 
                 console.log("Database loaded:", unifiedDatabase.length, "tolls");
                 resolve();
