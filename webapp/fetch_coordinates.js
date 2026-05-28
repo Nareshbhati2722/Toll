@@ -14,7 +14,7 @@ async function getCoordinates(query) {
     try {
         const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`, {
             headers: {
-                'User-Agent': 'Tollguru Ridemitr Script (nareshkumarbhati)'
+                'User-Agent': 'Tollguru Script (nareshkumarbhati)'
             }
         });
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);

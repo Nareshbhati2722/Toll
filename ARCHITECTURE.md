@@ -1,6 +1,6 @@
 # Technical Architecture & Algorithm Analysis 🛠️
 
-This document provides a deep-level technical analysis of the **Ridemitr Spatial Toll Engine**, details the spatial processing pipeline, and documents the algorithms used to compute toll invoices.
+This document provides a deep-level technical analysis of the **Spatial Toll Engine**, details the spatial processing pipeline, and documents the algorithms used to compute toll invoices.
 
 ---
 
@@ -26,7 +26,7 @@ graph TD
 To accurately map a route to the physical toll plazas it crosses, the system utilizes a modern spatial processing pipeline in JavaScript:
 
 ### Route Corridor Buffering (Turf.js)
-Standard point-to-line intersections can fail due to polyline simplification, GPS drift, or coordinates being slightly off the main highway lane. Ridemitr solves this by constructing a spatial corridor buffer:
+Standard point-to-line intersections can fail due to polyline simplification, GPS drift, or coordinates being slightly off the main highway lane. The system solves this by constructing a spatial corridor buffer:
 1. **Polyline Extraction**: Extracts the route coordinates `[longitude, latitude]` from the OSRM route response.
 2. **Turf Line String**: Converts the coordinates into a Turf.js `LineString` feature:
    ```javascript
@@ -157,9 +157,9 @@ To build a zero-dependency client web application, the coordinates and CSV data 
 [unified_tolls_schema.csv]
              │
              ▼ (Compiles CSV into Javascript String Template)
-[ridemitr-webapp/database.js] (const CSV_DATA = `...`)
+[webapp/database.js] (const CSV_DATA = `...`)
 ```
 
 1. **Geocoding Seed**: `all_active_india_toll_plazas.json` contains raw coordinates for all Indian plazas.
 2. **Schema Compilation**: The Node.js (`update_unified_schema.js`) or Ruby (`update_schema.rb`) script matches the plaza IDs, copies `Latitude` and `Longitude` values, and writes them back into the CSV.
-3. **JS Database Injection**: Reads the compiled CSV and injects it as a template string into `ridemitr-webapp/database.js` as `const CSV_DATA = \`...\`` so that PapaParse can read the dataset directly in-memory in the browser without CORS fetch errors.
+3. **JS Database Injection**: Reads the compiled CSV and injects it as a template string into `webapp/database.js` as `const CSV_DATA = \`...\`` so that PapaParse can read the dataset directly in-memory in the browser without CORS fetch errors.

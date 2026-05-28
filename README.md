@@ -1,6 +1,6 @@
-# Ridemitr Spatial Toll Engine 🚗💨
+# Spatial Toll Engine 🚗💨
 
-**Ridemitr** is an end-to-end spatial toll calculation engine designed for Indian highways. It handles route-to-toll mapping using spatial analysis and applies complex toll rules (Fixed Barriers, Linked Capping Systems, and Closed-Loop Matrix Expressways) to estimate highly accurate pre-ride toll invoices.
+**This engine** is an end-to-end spatial toll calculation engine designed for Indian highways. It handles route-to-toll mapping using spatial analysis and applies complex toll rules (Fixed Barriers, Linked Capping Systems, and Closed-Loop Matrix Expressways) to estimate highly accurate pre-ride toll invoices.
 
 The project features a **standalone Node.js calculation engine** and an interactive, premium **Dark Mode Glassmorphic web application** built with Leaflet.js maps, Turf.js spatial operators, and OpenStreetMap (OSRM) driving route models.
 
@@ -35,7 +35,7 @@ tollguru/
 ├── setup.js                         # Cross-platform setup compiler (Node.js)
 ├── setup.sh                         # macOS/Linux execution wrapper
 ├── setup.bat                        # Windows execution wrapper
-└── ridemitr-webapp/                 # Frontend client app
+└── webapp/                          # Frontend client app
     ├── index.html                   # Glassmorphic user interface
     ├── style.css                    # Vanilla CSS styles & layout
     ├── app.js                       # Client-side map & calculation logic

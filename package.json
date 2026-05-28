@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "start": "npx -y http-server ridemitr-webapp -p 8080",
+    "start": "npx -y http-server webapp -p 8080",
     "update-db": "node update_unified_schema.js",
-    "test": "node ridemitr-webapp/test.js"
+    "test": "node webapp/test.js"
   },
   "dependencies": {
     "papaparse": "^5.5.3"

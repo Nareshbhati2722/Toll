@@ -42,11 +42,11 @@ begin
   puts "Updated #{updated_count} rows in unified_tolls_schema.csv successfully!"
 
   # Generate database.js content
-  puts "Updating ridemitr-webapp/database.js..."
+  puts "Updating webapp/database.js..."
   updated_csv_string = File.read('unified_tolls_schema.csv')
   database_js_content = "const CSV_DATA = `#{updated_csv_string.strip}`;\n"
-  File.write('ridemitr-webapp/database.js', database_js_content)
-  puts "Updated ridemitr-webapp/database.js successfully!"
+  File.write('webapp/database.js', database_js_content)
+  puts "Updated webapp/database.js successfully!"
 
 rescue => e
   puts "Error: #{e.message}"

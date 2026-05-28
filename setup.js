@@ -31,7 +31,7 @@ function runCommand(command, cwd = process.cwd()) {
 }
 
 log("\n=============================================", colors.magenta + colors.bright);
-log("        RIDEMITR SPATIAL TOLL ENGINE        ", colors.blue + colors.bright);
+log("         SPATIAL TOLL CALCULATION ENGINE        ", colors.blue + colors.bright);
 log("            Unified Setup Wizard            ", colors.blue + colors.bright);
 log("=============================================\n", colors.magenta + colors.bright);
 
@@ -49,7 +49,7 @@ log("✓ Root dependencies installed successfully!\n", colors.green);
 
 // 3. Install Webapp Dependencies
 log("--- Step 2: Installing webapp dependencies ---", colors.yellow + colors.bright);
-const webappDir = path.join(__dirname, 'ridemitr-webapp');
+const webappDir = path.join(__dirname, 'webapp');
 if (!runCommand("npm install", webappDir)) {
     log("Failed to install webapp dependencies. Exiting.", colors.red + colors.bright);
     process.exit(1);
@@ -67,7 +67,7 @@ log("✓ Spatial database coordinates compiled successfully!\n", colors.green);
 // 5. Verify the compilation files
 log("--- Step 4: Verifying setup files ---", colors.yellow + colors.bright);
 const csvPath = path.join(__dirname, 'unified_tolls_schema.csv');
-const dbJsPath = path.join(__dirname, 'ridemitr-webapp', 'database.js');
+const dbJsPath = path.join(__dirname, 'webapp', 'database.js');
 
 let verified = true;
 if (!fs.existsSync(csvPath)) {
@@ -78,10 +78,10 @@ if (!fs.existsSync(csvPath)) {
 }
 
 if (!fs.existsSync(dbJsPath)) {
-    log("✗ Warning: 'ridemitr-webapp/database.js' is missing!", colors.red);
+    log("✗ Warning: 'webapp/database.js' is missing!", colors.red);
     verified = false;
 } else {
-    log("✓ 'ridemitr-webapp/database.js' verified.", colors.green);
+    log("✓ 'webapp/database.js' verified.", colors.green);
 }
 
 if (verified) {
