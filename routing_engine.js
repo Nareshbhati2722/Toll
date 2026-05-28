@@ -136,9 +136,11 @@ function calculateTrip(plazasCrossed, isOldHighway = false) {
             const entryIdx = resolvedPlazas.findIndex(p => p.id === entryP.id);
             const exitIdx = resolvedPlazas.findIndex(p => p.id === exitP.id);
             
-            // Mark all plazas (Fixed Barrier or other Matrix plazas) between entryIdx and exitIdx for removal
+            // Mark only Closed Loop Matrix plazas between entryIdx and exitIdx for removal
             for (let i = entryIdx + 1; i < exitIdx; i++) {
-                toRemove.add(resolvedPlazas[i].id);
+                if (resolvedPlazas[i].type === "Closed Loop Matrix") {
+                    toRemove.add(resolvedPlazas[i].id);
+                }
             }
         }
     }

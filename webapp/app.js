@@ -281,9 +281,11 @@ function calculateTollInvoice(intersectedPlazas, route) {
             const entryIdx = uniquePlazas.findIndex(p => p.id === entryP.id);
             const exitIdx = uniquePlazas.findIndex(p => p.id === exitP.id);
             
-            // Mark all plazas (Fixed Barrier or other Matrix plazas) between entryIdx and exitIdx for removal
+            // Mark only Closed Loop Matrix plazas between entryIdx and exitIdx for removal
             for (let i = entryIdx + 1; i < exitIdx; i++) {
-                toRemove.add(uniquePlazas[i].id);
+                if (uniquePlazas[i].type === "Closed Loop Matrix") {
+                    toRemove.add(uniquePlazas[i].id);
+                }
             }
         }
     }
