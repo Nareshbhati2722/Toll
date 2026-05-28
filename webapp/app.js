@@ -47,12 +47,38 @@ const LINKED_SYSTEMS = {
     "Mumbai-Pune Expressway": { plazas: ["3815", "3817"], cap: 320 }
 };
 
+// --- GEODATA CACHING UTILITY ---
+function getCachedCoords(query) {
+    try {
+        const cache = JSON.parse(localStorage.getItem('geocoding_cache') || '{}');
+        return cache[query.toLowerCase()] || null;
+    } catch (e) {
+        return null;
+    }
+}
+
+function saveCachedCoords(query, coords) {
+    try {
+        const cache = JSON.parse(localStorage.getItem('geocoding_cache') || '{}');
+        cache[query.toLowerCase()] = coords;
+        localStorage.setItem('geocoding_cache', JSON.stringify(cache));
+    } catch (e) {}
+}
+
 // --- ROUTING ENGINE ---
 async function getCoordinates(city) {
+    const cached = getCachedCoords(city);
+    if (cached) {
+        console.log(`Fetched geocode cache for: ${city}`, cached);
+        return cached;
+    }
+
     const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}`);
     const data = await res.json();
     if (data.length > 0) {
-        return [parseFloat(data[0].lon), parseFloat(data[0].lat)]; // OSRM uses Lon,Lat
+        const coords = [parseFloat(data[0].lon), parseFloat(data[0].lat)]; // OSRM uses Lon,Lat
+        saveCachedCoords(city, coords);
+        return coords;
     }
     throw new Error(`Could not find coordinates for ${city}`);
 }
@@ -150,7 +176,12 @@ function intersectTolls(routeGeojson) {
         if (toll.lat && toll.lng && toll.lat !== 0) {
             const pt = turf.point([toll.lng, toll.lat]); // Turf uses Lon,Lat
             if (turf.booleanPointInPolygon(pt, bufferedRoute)) {
-                intersectedPlazas.push(toll);
+                // Precision check: Calculate perpendicular distance to the exact route polyline
+                const distToLine = turf.pointToLineDistance(pt, line, { units: 'kilometers' });
+                // Limit to 0.5km (500m) to discard parallel roads/bypass plazas
+                if (distToLine <= 0.5) {
+                    intersectedPlazas.push(toll);
+                }
             }
         }
     });
