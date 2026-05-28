@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ridemitr Toll Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+    <div class="background-orb orb-1"></div>
+    <div class="background-orb orb-2"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-container">
+                <div class="logo-dot"></div>
+                <h1>Ridemitr</h1>
+            </div>
+            <p>Spatial Toll Engine</p>
+        </header>
+
+
+        <!-- Main Form Area -->
+        <main class="glass-panel form-panel">
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Origin</label>
+                    <input type="text" id="originInput" placeholder="e.g. Airoli" value="Airoli" autocomplete="off">
+                    <div class="autocomplete-list hidden" id="originSuggestions"></div>
+                </div>
+                <div class="input-group">
+                    <label>Destination</label>
+                    <input type="text" id="destInput" placeholder="e.g. Yerwada" value="Yerwada" autocomplete="off">
+                    <div class="autocomplete-list hidden" id="destSuggestions"></div>
+                </div>
+            </div>
+
+            <button id="calculateBtn" class="primary-btn">
+                <span>Calculate Route & Tolls</span>
+                <div class="loader hidden" id="btnLoader"></div>
+            </button>
+
+            <!-- Route Selector -->
+            <div id="routeSelector" class="route-selector-container hidden"></div>
+        </main>
+
+        <!-- Map Panel -->
+        <section class="glass-panel map-panel">
+            <div id="map"></div>
+        </section>
+
+        <!-- Invoice Result Area (Hidden initially) -->
+        <section class="glass-panel result-panel hidden" id="invoicePanel">
+            <div class="invoice-header">
+                <h3>Estimated Toll Invoice</h3>
+                <span class="status-badge">Pre-Ride Estimate</span>
+            </div>
+
+            <div class="invoice-items" id="invoiceItems">
+                <!-- Dynamically populated by JS -->
+            </div>
+
+            <!-- Breakdown Summary -->
+            <div class="invoice-breakdown" id="invoiceBreakdown">
+                <!-- Dynamically populated breakdown -->
+            </div>
+
+            <div class="invoice-total">
+                <span>Total Toll Cost</span>
+                <h2 id="totalCost">₹0</h2>
+            </div>
+
+            <!-- External Validation links -->
+            <div class="validation-block">
+                <span class="validation-title">Compare & Validate Estimate</span>
+                <div class="validation-links">
+                    <a id="tollguruLink" href="#" target="_blank" class="validation-btn">
+                        <span>Verify on Tollguru</span>
+                    </a>
+                    <a id="googleMapsLink" href="#" target="_blank" class="validation-btn">
+                        <span>Open Google Maps</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Libraries -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"></script>
+    
+    <script src="database.js?v=2"></script>
+    <script src="app.js?v=2"></script>
+</body>
+</html>
